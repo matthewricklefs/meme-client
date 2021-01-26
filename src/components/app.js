@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { navigate } from "hookrouter";
 import Meme from "./meme";
 
 const App = () => {
@@ -16,14 +17,25 @@ const App = () => {
     axios
       .delete(`https://mjr-meme-flask-api.herokuapp.com/delete-meme/${id}`)
       .then((res) => console.log(res.data))
-      .then(() => setMemes(memes.filter(meme => meme.id !== id)))
+      .then(() => setMemes(memes.filter((meme) => meme.id !== id)))
       .catch((err) => console.error("Delete Meme Error: ", err));
+  };
+
+  const editMeme = (id) => {
+    navigate(`/form/${id}`);
   };
 
   const renderMemes = () => {
     return memes.map((meme) => {
       console.log(meme);
-      return <Meme key={meme.id} {...meme} deleteMeme={deleteMeme} />;
+      return (
+        <Meme
+          key={meme.id}
+          {...meme}
+          deleteMeme={deleteMeme}
+          editMeme={editMeme}
+        />
+      );
     });
   };
   return <div className="app">{renderMemes()}</div>;

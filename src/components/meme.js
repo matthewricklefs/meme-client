@@ -16,7 +16,7 @@ const Meme = (props) => {
       ) : null}
 
       <button onClick={() => props.deleteMeme(props.id)}>Delete</button>
-      <button>Edit</button>
+      <button onClick={() => props.editMeme(props.id)}>Edit</button>
     </div>
   );
 };
