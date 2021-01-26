@@ -5,7 +5,7 @@ import "../../node_modules/react-dropzone-component/styles/filepicker.css";
 import "../../node_modules/dropzone/dist/min/dropzone.min.css";
 
 function MemeForm(props) {
-  const imageRef = useRef(null)
+  const imageRef = useRef(null);
   const [text, setText] = useState("");
   const [favorite, setFavorite] = useState(false);
   const [image, setImage] = useState("");
@@ -48,7 +48,22 @@ function MemeForm(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("submitted");
+
+    axios.post("https://mjr-meme-flask-api.herokuapp.com/add-meme",
+      {
+        text,
+        favorite,
+        image,
+      })
+        .then(() => {
+          setText("");
+          setImage("");
+          setFavorite(false);
+          imageRef.current.dropzone.removeAllFiles();
+        })
+        .catch((err) => {
+          console.log("Handle Submit Error: ", err);
+        });
   };
 
   return (
